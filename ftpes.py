@@ -14,9 +14,9 @@ def connect_ftpes(server,user,passwd):
   return
 
 def main():
-  server="192.168.49.207"
-  user="csirke"
-  passwd="poop"
+  server=""
+  user=""
+  passwd=""
   connect_ftpes(server,user,passwd)
 
 main()
