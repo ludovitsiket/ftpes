@@ -19,11 +19,8 @@ def download(ftps,filenames):
     print ("Sťahovanie ukončené.")
   ftps.quit()
   
-def hint():
-  print("Nesprávny počet argumentov. Syntax: python ftpes.py <server> <prihlasovacie_meno> <heslo>")
-  
 def argument_control():
-  hint()
+  print("Nesprávny počet argumentov. Syntax: python ftpes.py <server> <prihlasovacie_meno> <heslo>")
 
 def main():
   try:
