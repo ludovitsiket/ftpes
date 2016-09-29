@@ -8,7 +8,8 @@ def connect_ftpes(ftps,server,user,passwd):
   ftps.login(user, passwd)
   ftps.retrlines('LIST')
   
-def download(ftps,filenames,local_folder):
+def download(ftps,local_folder):
+  filenames=ftps.nlst()
   for item in filenames:
     local_filename = os.path.join(local_folder, item)
     print("Sťahujem: ",item, "do",local_filename)
@@ -38,8 +39,7 @@ def main():
       local_folder=sys.argv[4]
       ftps = FTP_TLS(server)
       connect_ftpes(ftps,server,user,passwd)
-      filenames=ftps.nlst()
-      download(ftps,filenames,local_folder)
+      download(ftps,local_folder)
   except:
     None
 
