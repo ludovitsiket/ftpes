@@ -1,12 +1,11 @@
 from ftplib import FTP_TLS
-import os, sys
+import os, sys, ftplib
 
 def connect_ftpes(ftps,server,user,passwd):
   ftps.connect(server, 21)
   ftps.auth()
   ftps.prot_p()
   ftps.login(user, passwd)
-  ftps.cwd("Documents")
   ftps.retrlines('LIST')
   
 def download(ftps,filenames):
@@ -14,7 +13,10 @@ def download(ftps,filenames):
     local_filename = os.path.join(r"C:\Documents and Settings\user\Plocha\ftpes", item)
     print("Sťahujem: ",item, "do",local_filename)
     file = open(local_filename, 'wb')
-    ftps.retrbinary('RETR '+ item, file.write)
+    try:
+      ftps.retrbinary('RETR '+ item, file.write)
+    except ftplib.error_perm:
+      pass
     file.close()
     print ("Sťahovanie ukončené.")
   ftps.quit()
