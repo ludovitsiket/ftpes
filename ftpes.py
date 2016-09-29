@@ -10,7 +10,6 @@ def connect_ftpes(ftps,server,user,passwd):
   
 def download(ftps,filenames,local_folder):
   for item in filenames:
-    
     local_filename = os.path.join(local_folder, item)
     print("Sťahujem: ",item, "do",local_filename)
     file = open(local_filename, 'wb')
@@ -23,7 +22,7 @@ def download(ftps,filenames,local_folder):
   ftps.quit()
 
 def wrong_arguments():
-  print("Nesprávny počet argumentov. Syntax: python ftpes.py <server> <prihlasovacie_meno> <heslo> <lokalna_zlozka_pre_stahovanie (v uvodzovkach)>")
+  print("Nesprávny počet argumentov.\nSyntax: python ftpes.py <server> <prihlasovacie_meno> <heslo> <lokalna_zlozka_pre_stahovanie (v uvodzovkach)>")
   sys.exit()
   
 def argument_control():
@@ -38,7 +37,6 @@ def main():
     user=sys.argv[2]
     passwd=sys.argv[3]
     local_folder=sys.argv[4]
-    #local_folder=local_folder.decode('string_escape')
   except:
     argument_control()
   ftps = FTP_TLS(server)
