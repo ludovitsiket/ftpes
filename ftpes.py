@@ -14,7 +14,6 @@ def download(ftps,local_folder,connect_ftpes,server,user,passwd):
   for item in ftp_filenames:
     if not os.path.isfile(os.path.join(local_folder, item)):
       local_filename = os.path.join(local_folder, item)
-      #raise TimeoutError
       print("Sťahujem: ",item, "do",local_filename)
       file = open(local_filename, 'wb')
       try:
@@ -22,9 +21,23 @@ def download(ftps,local_folder,connect_ftpes,server,user,passwd):
       except ftplib.error_perm:
         pass  
       file.close()
+      raise TimeoutError     # pre testovanie
     else:
       print("Súbor ",item," už je stiahnutý.")
-  
+
+def check_local_file_size(ftps,local_folder,connect_ftpes,server,user,passwd):
+  for item in os.listdir(local_folder):
+    print(item)
+    local_file = os.path.join(local_folder, item)
+    if (os.path.getsize(local_file) ==0 ):
+      if not os.path.isfile(local_file):
+        pass
+      else:
+        download(ftps,local_folder,connect_ftpes,server,user,passwd)
+    else:
+      pass
+  return
+ 
 def argument_control():
   print("Nesprávny počet argumentov.\nSyntax: python ftpes.py <server> <prihlasovacie_meno> <heslo> <lokalna_zlozka_pre_stahovanie (v uvodzovkach)>") 
   sys.exit()
@@ -35,12 +48,12 @@ def connect_download(ftps,server,user,passwd,local_folder,count, max_count):
     try:
       download(ftps,local_folder,connect_ftpes,server,user,passwd)
     except (TimeoutError, ConnectionResetError) as timeout:
-    #except ConnectionResetError as timeout:
       print("CHYBA pokus cislo ", count, " z celkoveho ", max_count)
       print(timeout)
       #sleep v sekundach
-      time.sleep(30)
-      connect_download(ftps,server,user,passwd,local_folder,count+1, max_count) 
+      time.sleep(15)
+      connect_download(ftps,server,user,passwd,local_folder,count+1, max_count)
+      check_local_file_size(ftps,local_folder,connect_ftpes,server,user,passwd) 
 
 def main():
   server=sys.argv[1]
@@ -51,6 +64,6 @@ def main():
     argument_control()
   else:
     ftps = FTP_TLS(server)
-    connect_download(ftps,server,user,passwd,local_folder,1,5)
+    connect_download(ftps,server,user,passwd,local_folder,1,15)
     print(ftps.quit())
 main()
