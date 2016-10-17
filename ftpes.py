@@ -21,7 +21,7 @@ def download(ftps,local_folder,connect_ftpes,server,user,passwd):
       except ftplib.error_perm:
         pass  
       file.close()
-      #raise TimeoutError     # pre testovanie
+      raise TimeoutError     # pre testovanie
     else:
       print("Súbor ",item," už je stiahnutý.")
 
@@ -33,6 +33,7 @@ def check_local_file_size(ftps,local_folder,connect_ftpes,server,user,passwd):
       if not os.path.isfile(local_file):
         pass
       else:
+        os.remove(item)
         download(ftps,local_folder,connect_ftpes,server,user,passwd)
     else:
       pass
@@ -51,9 +52,9 @@ def connect_download(ftps,server,user,passwd,local_folder,count, max_count):
       print("CHYBA pokus cislo ", count, " z celkoveho ", max_count)
       print(timeout)
       #sleep v sekundach
-      time.sleep(15)
+      time.sleep(10)
       connect_download(ftps,server,user,passwd,local_folder,count+1, max_count)
-      check_local_file_size(ftps,local_folder,connect_ftpes,server,user,passwd) 
+      check_local_file_size(ftps,local_folder,connect_ftpes,server,user,passwd)
 
 def main():
   server=sys.argv[1]
@@ -64,6 +65,6 @@ def main():
     argument_control()
   else:
     ftps = FTP_TLS(server)
-    connect_download(ftps,server,user,passwd,local_folder,1,15)
+    connect_download(ftps,server,user,passwd,local_folder,1,30)
     print(ftps.quit())
 main()
