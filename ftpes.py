@@ -33,8 +33,7 @@ def check_local_file_size(ftps,local_folder,connect_ftpes,server,user,passwd):
       if not os.path.isfile(local_file):
         pass
       else:
-        os.remove(local_file)
-        download(ftps,local_folder,connect_ftpes,server,user,passwd)
+        os.remove(local_file)          
     else:
       pass
   return
@@ -65,6 +64,6 @@ def main():
     argument_control()
   else:
     ftps = FTP_TLS(server)
-    connect_download(ftps,server,user,passwd,local_folder,1,30)
+    connect_download(ftps,server,user,passwd,local_folder,1,60)
     print(ftps.quit())
 main()
