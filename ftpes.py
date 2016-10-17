@@ -33,7 +33,7 @@ def check_local_file_size(ftps,local_folder,connect_ftpes,server,user,passwd):
       if not os.path.isfile(local_file):
         pass
       else:
-        os.remove(item)
+        os.remove(local_file)
         download(ftps,local_folder,connect_ftpes,server,user,passwd)
     else:
       pass
