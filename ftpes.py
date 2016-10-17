@@ -21,7 +21,7 @@ def download(ftps,local_folder,connect_ftpes,server,user,passwd):
       except ftplib.error_perm:
         pass  
       file.close()
-      raise TimeoutError     # pre testovanie
+      #raise TimeoutError     # pre testovanie
     else:
       print("Súbor ",item," už je stiahnutý.")
 
