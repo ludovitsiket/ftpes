@@ -1,5 +1,6 @@
 from ftplib import FTP_TLS
 import os, sys, ftplib, time
+from datetime import datetime,timedelta
 
 def connect_ftpes(ftps,server,user,passwd):
   print (ftps.connect(server, 21))
@@ -33,7 +34,10 @@ def check_local_file_size(ftps,local_folder,connect_ftpes,server,user,passwd):
       if not os.path.isfile(local_file):
         pass
       else:
-        os.remove(local_file)          
+        zoradene_subory = sorted(os.listdir(local_folder), key=os.path.getctime)
+        newest = zoradene_subory[-1]
+        print(newest)
+        os.remove(newest)          
     else:
       pass
   return
