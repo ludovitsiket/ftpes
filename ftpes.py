@@ -20,6 +20,7 @@ def download(ftps,local_folder,connect_ftpes,server,user,passwd):
           try:
             print(ftps.retrbinary('RETR '+ item, f.write), "\n")
             f.close()
+            #time.sleep(5)
           except ftplib.error_perm:
             pass
     else:
@@ -60,5 +61,8 @@ def main():
   else:
     ftps = FTP_TLS(server)
     connect_download(ftps,server,user,passwd,local_folder,1,60)
-    print(ftps.quit())
+    try:
+      print(ftps.quit())
+    except ConnectionResetError as connection_reset:
+      print("Vziadleny server sa odpojil")    
 main()
