@@ -27,21 +27,19 @@ def download(ftps,local_folder,connect_ftpes,server,user,passwd):
       pass
 
 def check_local_file_size(ftps,local_folder,server,user,passwd):
-  print("funkcia check_local_file_size je zavolana.")
   paths = [os.path.join(local_folder, item) for item in os.listdir(local_folder)]
-  zoradene_subory = sorted(paths, key=os.path.getctime)
-  if(len(zoradene_subory) > 0):
-    newest = zoradene_subory[-1] 
-    uj=os.path.join(local_folder, newest)
-    print(uj)
-    os.remove(uj)
+  sorted_files = sorted(paths, key=os.path.getctime)
+  if(len(sorted_files) > 0):
+    newest = sorted_files[-1]
+    file_to_remove=os.path.join(local_folder, newest)
+    print(file_to_remove)
+    os.remove(file_to_remove)
   
 def argument_control():
-  print("Nesprávny počet argumentov.\nSyntax: python ftpes.py <server> <prihlasovacie_meno> <heslo> <lokalna_zlozka_pre_stahovanie (v uvodzovkach)>") 
+  print("Syntax: python ftpes.py <server> <prihlasovacie_meno> <heslo> <lokalna_zlozka_pre_stahovanie (v uvodzovkach)>") 
   sys.exit()
   
 def connect_download(ftps,server,user,passwd,local_folder,count, max_count):
-  print("funkcia connect_download je zavolana.")
   if (count <= max_count):
     connect_ftpes(ftps,server,user,passwd,local_folder)
     try:
@@ -64,5 +62,5 @@ def main():
     try:
       print(ftps.quit())
     except ConnectionResetError as connection_reset:
-      print("Vziadleny server sa odpojil")    
+      print("Vziadleny server sa odpojil.")    
 main()
