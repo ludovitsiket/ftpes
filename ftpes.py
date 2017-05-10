@@ -27,6 +27,11 @@ def download(ftps,local_folder,connect_ftpes,server,user,passwd):
       pass
 
 def check_local_file_size(ftps,local_folder,server,user,passwd):
+  print("ftps: ",ftps)
+  print("local_folder: ",local_folder)
+  print("server: ",server)
+  print("user: ",user)
+  print("password: ",passwd)
   paths = [os.path.join(local_folder, item) for item in os.listdir(local_folder)]
   sorted_files = sorted(paths, key=os.path.getctime)
   if(len(sorted_files) > 0):
