@@ -21,7 +21,6 @@ def download(ftps,local_folder,connect_ftpes,server,user,passwd):
           try:
             print(ftps.retrbinary('RETR '+ item, f.write), "\n")
             f.close()
-            #time.sleep(5)
           except ftplib.error_perm:
             pass
     else:
@@ -43,6 +42,7 @@ def check_local_file_size(ftps,local_folder,server,user,passwd):
   
 def argument_control():
   print("Syntax: python ftpes.py <server> <prihlasovacie_meno> <heslo> <lokalna_zlozka_pre_stahovanie (v uvodzovkach)>") 
+  print("""Skript vyzaduje nainstalovany python 3.x""")
   sys.exit()
   
 def connect_download(ftps,server,user,passwd,local_folder,count, max_count):
@@ -68,12 +68,11 @@ def main():
         user=sys.argv[2]
         passwd=sys.argv[3]
         local_folder=sys.argv[4]  
-        if len(sys.argv) != 5:
-            argument_control()
-        else:
-            ftps = FTP_TLS(server)
-            connect_download(ftps,server,user,passwd,local_folder,1,60)
-            print(ftps.quit())
+        ftps = FTP_TLS(server)
+        connect_download(ftps,server,user,passwd,local_folder,1,60)
+        print(ftps.quit())
     except:
         log(log_file)
+        print('Chyba zaznamenana v log subore.')
+        argument_control()
 main()
