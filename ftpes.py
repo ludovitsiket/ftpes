@@ -1,6 +1,7 @@
 from ftplib import FTP_TLS
 import os, sys, ftplib, time
 from datetime import datetime,timedelta
+from time import localtime, strftime
 
 def connect_ftpes(ftps,server,user,passwd,local_folder):
   print (ftps.connect(server, 21))
@@ -54,18 +55,25 @@ def connect_download(ftps,server,user,passwd,local_folder,count, max_count):
       time.sleep(10)  #sleep v sekundach
       connect_download(ftps,server,user,passwd,local_folder,count+1, max_count)
 
+def log(log_file):
+    with open(log_file, "a+") as log:
+        formated_date_time = strftime("%Y-%m-%d %H:%M:%S", localtime())
+        log.write( "[  " + formated_date_time + "  ]" + "  :" + "  " + str(sys.exc_info()[0]) + '\n' )
+    return
+
 def main():
-  server=sys.argv[1]
-  user=sys.argv[2]
-  passwd=sys.argv[3]
-  local_folder=sys.argv[4]  
-  if len(sys.argv) != 5:
-    argument_control()
-  else:
-    ftps = FTP_TLS(server)
-    connect_download(ftps,server,user,passwd,local_folder,1,60)
+    log_file = 'ftpes_log.txt'
     try:
-      print(ftps.quit())
-    except ConnectionResetError as connection_reset:
-      print("Vziadleny server sa odpojil.")    
+        server=sys.argv[1]
+        user=sys.argv[2]
+        passwd=sys.argv[3]
+        local_folder=sys.argv[4]  
+        if len(sys.argv) != 5:
+            argument_control()
+        else:
+            ftps = FTP_TLS(server)
+            connect_download(ftps,server,user,passwd,local_folder,1,60)
+            print(ftps.quit())
+    except:
+        log(log_file)
 main()
