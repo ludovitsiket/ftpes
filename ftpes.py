@@ -58,7 +58,7 @@ def connect_download(ftps,server,user,passwd,local_folder,count, max_count):
 def log(log_file):
     with open(log_file, "a+") as log:
         formated_date_time = strftime("%Y-%m-%d %H:%M:%S", localtime())
-        log.write( "[  " + formated_date_time + "  ]" + "  :" + "  " + str(sys.exc_info()[0]) + '\n' )
+        log.write( "[  " + formated_date_time + "  ]" + "  :" + "  " + str(sys.exc_info()[0])+ str(sys.exc_info()[1]) + '\n' )
     return
 
 def main():
